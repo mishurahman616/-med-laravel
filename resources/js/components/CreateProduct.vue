@@ -93,6 +93,7 @@
 
         <button @click="saveProduct" type="submit" class="btn btn-lg btn-primary">Save</button>
         <button type="button" class="btn btn-secondary btn-lg">Cancel</button>
+      
     </section>
 </template>
 
@@ -126,10 +127,10 @@ export default {
             ],
             product_variant_prices: [],
             dropzoneOptions: {
-                url: 'https://httpbin.org/post',
+                url: 'http://127.0.0.1/images',
                 thumbnailWidth: 150,
                 maxFilesize: 0.5,
-                headers: {"My-Awesome-Header": "header value"}
+                headers: {"My-Awesome-Header": "header value"},
             }
         }
     },
@@ -179,6 +180,7 @@ export default {
 
         // store product into database
         saveProduct() {
+
             let product = {
                 title: this.product_name,
                 sku: this.product_sku,
@@ -188,14 +190,20 @@ export default {
                 product_variant_prices: this.product_variant_prices
             }
 
-
-            axios.post('/product', product).then(response => {
+           
+    console.log(product);
+    var headers={
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        'Content-type':'multipart/form-data'
+    }
+    console.log(this.dropzoneOptions);
+            axios.post('/product', product,headers ).then(response => {
                 console.log(response.data);
+                 
             }).catch(error => {
                 console.log(error);
             })
 
-            console.log(product);
         }
 
 
