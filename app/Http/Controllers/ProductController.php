@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+
 class ProductController extends Controller
 {
     /**
@@ -22,9 +23,17 @@ class ProductController extends Controller
     public function index()
     {
 
+     $products = DB::table('products')  
+        ->join('product_variant_prices', 'products.id', '=', 'product_variant_prices.product_id')
+        ->select('products.*',  'product_variant_prices.*')
+        ->get();
+    $product_variants=DB::table('product_variants')
+        ->select("*")
+        ->get();
+       // return Product::find(7)->withVP()->get();
         // return Product::all()->sortByDesc('id')->first()->id;
         //  return Product::find(7)->withVariants()->where('variant','=', 'red')->first();
-        // return view('products.index');
+        return view('products.index', compact('products', 'product_variants'));
     }
 
     /**

@@ -18,4 +18,23 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class);
     }
+    /**
+     * Get all of the VariantPrices for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function withVariantPrices()
+    {
+        return $this->hasMany(ProductVariantPrice::class);
+    }
+    /**
+     * Get all of the withVP for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function withVP()
+    {
+        return $this->hasManyThrough(ProductVariantPrice::class, ProductVariant::class);
+    }
+
 }
